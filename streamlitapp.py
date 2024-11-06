@@ -1,48 +1,48 @@
-﻿#Edit the 8th to 12th line code before upload to gihub
-# Import necessary libraries
+# streamlitapp.py
 import streamlit as st
-import seaborn as sns
-import plotly.express as px
 import pandas as pd
+import numpy as np
 
+# Set the title of the Streamlit app
+st.title("My First Streamlit App")
 
-# --- Title and Introduction ---
-st.title("Interactive Visualizations with Plotly and Streamlit")
+# Add a header and subheader
+st.header("Welcome to My App")
+st.subheader("This is a subheader")
 
+# Add text
+st.write("This is a simple Streamlit app example.")
 
-# --- Input for Author Information ---
-st.sidebar.header("Visualization skill workshop - Plotly")
-name = st.sidebar.text_input("shaik mohammad yaseen")
-usn = st.sidebar.text_input("20.")
-instructor_name = st.sidebar.text_input("ashwini kumar mathur")
+# Add a sidebar
+st.sidebar.title("Sidebar")
+st.sidebar.write("This is the sidebar.")
 
+# User input
+name = st.text_input("Enter your name:")
+st.write("Hello,", name)
 
-# Display author information if provided
-if name and usn and instructor_name:
-    st.markdown(
-        f"<h5 style='color: teal;'>Created by:</h5>"
-        f"<p style='color: white;'>{name} (USN: {usn})</p>"
-        f"<p style='color: white;'>Instructor: {instructor_name}</p>",
-        unsafe_allow_html=True
-    )
+# Adding a slider
+age = st.slider("Select your age", 0, 100, 25)
+st.write("Your age is:", age)
 
-
-# --- Load Dataset ---
-tips = sns.load_dataset('tips')  # Loading the tips dataset
-
-
-# Display the first few rows of the dataset
-st.write("## Dataset Overview")
-st.write(tips.head())
-
-
-# --- Task 2: Interactive Bar Chart ---
-st.subheader("Task 2: Bar Chart - Average Tip by Day")
-# Bar Chart: Average Tip by Day with color for each day
-fig2 = px.bar(
-    tips, x='day', y='tip', color='day',
-    title='Average Tip by Day',
-    labels={'tip': 'Average Tip ($)', 'day': 'Day of the Week'},
-    template='plotly_white'
+# Generate and display a random dataframe
+df = pd.DataFrame(
+    np.random.randn(10, 5),
+    columns=('col %d' % i for i in range(5))
 )
-st.plotly_chart(fig2)  # Display the chart in Streamlit
+st.write("Random DataFrame")
+st.dataframe(df)
+
+# Plotting a simple chart
+st.write("Simple Line Chart")
+st.line_chart(df)
+
+# Conditional display based on a checkbox
+if st.checkbox("Show Data Summary"):
+    st.write(df.describe())
+
+# File upload
+uploaded_file = st.file_uploader("Choose a file")
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    st.write(data)
